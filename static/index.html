@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Transkriva • Audio Workspace</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-glow glow-a"></div>
+  <div class="page-glow glow-b"></div>
+
+  <div class="app-shell">
+    <aside class="sidebar glass">
+      <div class="brand-box">
+        <div class="brand-mark">▂▆█▆▂</div>
+        <div>
+          <h1>TRANS<span>KRIVA</span></h1>
+          <p>audio workspace</p>
+        </div>
+      </div>
+
+      <div class="system-chip" id="systemBadge">● Menyiapkan sistem…</div>
+
+      <nav class="side-nav">
+        <button class="nav-btn active" type="button" data-view="overview" aria-current="page">
+          <span class="nav-ico">◈</span>
+          <span>
+            <b>Overview</b>
+            <small>ringkasan studio</small>
+          </span>
+        </button>
+        <button class="nav-btn" type="button" data-view="studio">
+          <span class="nav-ico">◎</span>
+          <span>
+            <b>Studio</b>
+            <small>upload & transkrip</small>
+          </span>
+        </button>
+        <button class="nav-btn" type="button" data-view="library">
+          <span class="nav-ico">▤</span>
+          <span>
+            <b>Library</b>
+            <small>riwayat sesi</small>
+          </span>
+        </button>
+        <button class="nav-btn" type="button" data-view="tools">
+          <span class="nav-ico">✦</span>
+          <span>
+            <b>Tools</b>
+            <small>fitur & panduan</small>
+          </span>
+        </button>
+      </nav>
+
+      <div class="side-card glass-soft">
+        <small>alur kerja</small>
+        <strong>Upload → Process → Review → Export</strong>
+        <p>Pindah menu langsung dari panel kiri tanpa scroll panjang.</p>
+      </div>
+    </aside>
+
+    <main class="stage">
+      <section class="view active" id="view-overview">
+        <div class="view-head">
+          <div>
+            <span class="eyebrow">AUDIO DASHBOARD</span>
+            <h2>Dari suara menjadi tulisan.</h2>
+            <p>Unggah rekaman, pilih mesin, lalu simpan hasilnya. Semua proses berjalan secara lokal.</p>
+          </div>
+          <button class="jump-btn" data-jump="studio">Mulai transkripsi</button>
+        </div>
+
+        <div class="hero-grid">
+          <article class="hero-card hero-main glass">
+            <div class="hero-copy">
+              <span class="hero-tag">live audio workspace</span>
+              <h3>Rekaman masuk. Teks siap dibuat.</h3>
+              <p>Whisper memproses audio menjadi teks dan subtitle. Pilih CPU atau GPU sesuai perangkat.</p>
+              <div class="hero-actions">
+                <button class="btn primary" data-jump="studio">Buka studio</button>
+                <button class="btn ghost" data-jump="library">Lihat riwayat</button>
+              </div>
+            </div>
+            <div class="hero-wave-bg">
+              <div class="wave-hero" id="heroWave"></div>
+            </div>
+          </article>
+
+          <article class="hero-card hero-side glass">
+            <div class="speaker-art"></div>
+            <div class="mini-terminal glass-soft">
+              <small>current status</small>
+              <p id="latestFile">Belum ada file aktif</p>
+              <span id="latestState">Menunggu input</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="quick-grid">
+          <article class="quick-card glass">
+            <small>Total sesi</small>
+            <b id="totalJobs">0</b>
+            <span>pekerjaan dalam sesi server</span>
+          </article>
+          <article class="quick-card glass">
+            <small>Selesai</small>
+            <b id="doneJobs">0</b>
+            <span>hasil berhasil diproses</span>
+          </article>
+          <article class="quick-card glass">
+            <small>Perangkat</small>
+            <b id="deviceState">Auto</b>
+            <span id="deviceNote">mengecek CPU / GPU</span>
+          </article>
+          <article class="quick-card glass">
+            <small>Ekspor</small>
+            <b>4 format</b>
+            <span>TXT, SRT, VTT, JSON</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="view-studio">
+        <div class="view-head compact">
+          <div>
+            <span class="eyebrow">TRANSCRIPTION STUDIO</span>
+            <h2>Area kerja utama</h2>
+          </div>
+          <div class="head-pills">
+            <span>lokal-first</span>
+            <span>Whisper</span>
+            <span>subtitle ready</span>
+          </div>
+        </div>
+
+        <div class="studio-grid">
+          <aside class="panel glass">
+            <div class="panel-head"><b>Pengaturan mesin</b><span>A-01</span></div>
+            <div class="select-field"><span class="select-label" id="model-label">Model Whisper</span><div class="select-host" data-select-name="Model Whisper"><select id="model">
+                <option value="tiny">tiny · paling ringan</option>
+                <option value="base">base · ringan</option>
+                <option value="small" selected>small · seimbang</option>
+                <option value="medium">medium · akurat</option>
+                <option value="turbo">turbo · cepat</option>
+              </select></div></div>
+            <div class="select-field"><span class="select-label" id="language-label">Bahasa sumber</span><div class="select-host" data-select-name="Bahasa sumber"><select id="language">
+                <option value="auto" selected>Deteksi otomatis</option>
+                <option value="id">Bahasa Indonesia</option>
+                <option value="en">English</option>
+              </select></div></div>
+            <div class="label-title">Perangkat proses</div>
+            <div class="device-toggle">
+              <button class="selected" data-device="auto">AUTO</button>
+              <button data-device="cpu">CPU</button>
+              <button data-device="cuda" id="gpuButton">GPU</button>
+            </div>
+            <div class="system-details" id="systemDetails">Mendeteksi perangkat…</div>
+            <div class="note-card glass-soft">
+              <b>Catatan</b>
+              <p>Proses berjalan di komputer sendiri. Saat pertama kali memakai model tertentu, unduhan model dapat memerlukan internet.</p>
+            </div>
+          </aside>
+
+          <section class="panel glass">
+            <div class="panel-head"><b>Input audio</b><span>A-02</span></div>
+            <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Pilih atau seret file audio/video">
+              <div class="upload-icon">↥</div>
+              <h3>Pilih atau seret file</h3>
+              <p>Audio / video: MP3, WAV, M4A, FLAC, MP4, OGG, WEBM, MOV</p>
+              <input type="file" id="fileInput" accept="audio/*,video/*,.mp3,.m4a,.flac,.ogg,.webm,.opus,.mkv,.wma" hidden>
+            </div>
+            <div class="file-preview" id="filePreview" hidden>
+              <div class="file-icon">♫</div>
+              <div class="file-info">
+                <b id="fileName">-</b>
+                <small id="fileSize">-</small>
+              </div>
+              <button id="clearFile" class="tiny-btn" title="Hapus file">✕</button>
+            </div>
+            <div class="player glass-soft">
+              <audio id="audioPlayer" controls preload="metadata"></audio>
+              <div class="bars" id="audioBars"></div>
+            </div>
+            <div class="startrow">
+              <button class="btn primary" id="startBtn" disabled>Mulai</button>
+              <button class="btn danger" id="stopBtn" disabled>Hentikan</button>
+            </div>
+            <div class="progress-box glass-soft">
+              <div class="progress-top">
+                <b id="statusLabel">BELUM ADA PROSES</b>
+                <span id="statusTime">—</span>
+              </div>
+              <div class="progress-track"><div id="progressFill"></div></div>
+              <p id="statusMessage">Pilih file lalu mulai transkripsi.</p>
+            </div>
+            <details class="log-details">
+              <summary>Log proses</summary>
+              <pre id="jobLog">Belum ada log.</pre>
+            </details>
+          </section>
+
+          <section class="panel glass">
+            <div class="panel-head"><b>Output</b><span>A-03</span></div>
+            <div class="result-nav">
+              <button class="result-tab active" data-result="text">Teks</button>
+              <button class="result-tab" data-result="segments">Timestamp</button>
+            </div>
+            <div class="transcript" id="transcript">
+              <div class="empty-state">
+                <span>〰</span>
+                <b>Hasil transkrip akan muncul di sini</b>
+                <p>Setelah proses selesai, teks bisa dibaca, disalin, dan diunduh.</p>
+              </div>
+            </div>
+            <div class="stats">
+              <span>Kata <b id="wordCount">0</b></span>
+              <span>Segmen <b id="segmentCount">0</b></span>
+              <span>Bahasa <b id="detectedLanguage">—</b></span>
+            </div>
+            <div class="exports">
+              <button id="copyBtn" disabled>Salin</button>
+              <button data-export="txt" disabled>TXT</button>
+              <button data-export="srt" disabled>SRT</button>
+              <button data-export="vtt" disabled>VTT</button>
+              <button data-export="json" disabled>JSON</button>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="view-library">
+        <div class="view-head compact">
+          <div>
+            <span class="eyebrow">SESSION LIBRARY</span>
+            <h2>Riwayat & hasil</h2>
+          </div>
+          <button class="jump-btn small" id="refreshHistory">Segarkan</button>
+        </div>
+
+        <div class="library-layout">
+          <div class="history-grid" id="history">
+            <div class="history-empty">Belum ada sesi pada server ini.</div>
+          </div>
+          <aside class="library-side glass">
+            <h3>Pustaka sesi</h3>
+            <ul>
+              <li>Transkrip teks penuh</li>
+              <li>Tampilan per segmen waktu</li>
+              <li>Ekspor subtitle & data</li>
+              <li>Pemantauan status proses</li>
+            </ul>
+            <div class="library-mini glass-soft">
+              <small>Tip cepat</small>
+              <p>Klik kartu riwayat untuk membuka lagi pekerjaan lama ke panel output.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="view" id="view-tools">
+        <div class="view-head compact">
+          <div>
+            <span class="eyebrow">TOOLS & GUIDE</span>
+            <h2>Pusat bantuan</h2>
+          </div>
+        </div>
+
+        <div class="device-check glass-soft"><div><span class="eyebrow">Pemeriksaan perangkat</span><strong id="toolDeviceSummary">Membaca konfigurasi perangkat...</strong><small id="toolDeviceDetail">Whisper akan memakai CPU bila CUDA tidak tersedia.</small></div><button id="checkDeviceBtn" type="button">Periksa ulang</button></div>
+
+        <div class="tools-grid">
+          <article class="tool-card glass">
+            <b>Perangkat & model</b>
+            <p>Cek dukungan CUDA sebelum menjalankan model besar.</p>
+          </article>
+          <article class="tool-card glass">
+            <b>Pustaka sesi</b>
+            <p>Buka hasil pekerjaan sebelumnya tanpa memenuhi ruang studio.</p>
+          </article>
+          <article class="tool-card glass">
+            <b>Paket subtitle</b>
+            <p>Unduh transkrip dalam TXT, SRT, VTT, atau JSON.</p>
+          </article>
+          <article class="tool-card glass">
+            <b>Menu terpisah</b>
+            <p>Menu kiri membuka tampilan terpisah untuk setiap pekerjaan.</p>
+          </article>
+        </div>
+
+        <div class="guide-card glass">
+          <h3>Panduan singkat</h3>
+          <ol>
+            <li>Atur model, bahasa, dan perangkat di <b>Studio</b>.</li>
+            <li>Pilih file audio/video lalu tekan <b>Mulai</b>.</li>
+            <li>Pantau status, lalu baca hasil di <b>Output</b>.</li>
+            <li>Buka <b>Library</b> untuk mengambil hasil sesi lain.</li>
+          </ol>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
