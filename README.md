@@ -4,7 +4,7 @@
 
 **Local Audio Transcription Workspace**
 
-Python · OpenAI Whisper · HTML/CSS/JavaScript · Local-first
+Python · Whisper · HTML/CSS/JavaScript · Local-first
 
 <img src="docs/screenshots/transkriva-tour.gif" alt="Animasi empat menu Transkriva: Overview, Studio, Library, dan Tools" width="100%" />
 
